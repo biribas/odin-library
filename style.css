@@ -9,6 +9,9 @@
 .light-theme {
   --shadow-color: grey;
   --header-color: snow;
+  --accent-color: chocolate;
+  --hover-accent-color: rgb(182, 96, 34);
+  --bg-color: rgb(237, 237, 237);
 }
 
 * {
@@ -17,11 +20,23 @@
   box-sizing: border-box;
 }
 
+button, input {
+  font: inherit;
+  border: none;
+  outline: none;
+}
+
+button {
+  cursor: pointer;
+}
+
 body {
+  position: relative;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  background-color: var(--bg-color)
 }
 
 header {
@@ -44,14 +59,26 @@ header {
   user-select: none;
 }
 
+.logo i {
+  color: var(--accent-color);
+}
+
 .add-book-button {
+  background-color: var(--accent-color);
+  color: var(--header-color);
   font-size: 1.2rem;
   font-weight: bold;
-  border: 0;
-  border-radius: 10px;
+  border-radius: 8px;
   padding: .5rem;
-  cursor: pointer;
   transition: background-color var(--transition-time) ease;
+}
+
+.add-book-button:hover {
+  background-color: var(--hover-accent-color);
+}
+
+.add-book-button:active {
+  background-color: var(--accent-color);
 }
 
 main {
@@ -76,8 +103,45 @@ main {
 }
 
 .book-card {
-  border: 1px solid black;
-  height: 20rem;
+  user-select: none;
+  cursor: pointer;
+  --radius: 10px;
+  --padding-left: 1rem;
+  background-color: var(--header-color);
+  border-radius: var(--radius);
+  box-shadow: 5px 5px 10px var(--shadow-color);
+  padding-left: var(--padding-left);
+  position: relative;
+  text-align: center;
+}
+
+.book-card-content {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.book-card::before {
+  content: "";
+  position: absolute; 
+  top: 0; bottom: 0; left: 0;
+  width: var(--padding-left);
+  border-radius: var(--radius) 0 0 var(--radius);
+  background-color: var(--accent-color);
+  transition: background-color 0.2s ease;
+}
+
+.book-card:hover::before {
+  background-color: var(--hover-accent-color);
+}
+
+.book-title {
+  word-wrap: break-word;
+}
+
+.book-author {
+  color: grey;
+  margin-bottom: 1rem;
 }
 
 footer {
@@ -88,7 +152,8 @@ footer {
 
 footer a {
   position: relative;
-  color: black;
+  color: var(--accent-color);
+  font-weight: bold;
   text-decoration: none;
 }
 
@@ -97,12 +162,73 @@ footer a::after {
   position: absolute;
   bottom: 0.1rem;
   left: 0;
-  border-bottom: 1px solid black;
-  width: 100%;
+  border-bottom: 1px solid var(--accent-color);
+  width: 0%;
   transition: width .1s;
   pointer-events: none;
 }
 
 footer a:hover::after {
-  width: 0%;
+  width: 100%;
 }
+
+.add-book-modal {
+  display: none;
+  position: absolute;  
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 2rem;
+  border: 1px solid black;
+  border-radius: 10px;
+  background-color: var(--bg-color);
+}
+
+.add-book-modal form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.input {
+  position: relative;
+  --padding: .5rem;
+  overflow: hidden;
+}
+
+input {
+  padding: var(--padding);
+  width: 100%;
+  border-radius: 10px;
+  background-color: var(--header-color);
+}
+
+label, .error-message {
+  position: absolute;
+}
+
+label {
+  color: grey;
+  padding: var(--padding);
+  left: 0;
+  transition: transform var(--transition-time) ease;
+}
+
+input:focus + label,
+input:not(:placeholder-shown) + label {
+  transform: translateX(-100%);
+}
+
+.error-message {
+  display: none;
+}
+
+.add-book-modal button {
+  padding: 0.5rem;  
+  background-color: var(--accent-color);
+  color: var(--header-color);
+  border-radius: 8px;
+}
+
+

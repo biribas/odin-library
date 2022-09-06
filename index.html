@@ -21,20 +21,43 @@
         <span class="pages-read">0</span> out of <span class="total-pages">0</span> pages read
       </div>
       <section class="books-grid">
-        <div class="book-card"></div>
-        <div class="book-card"></div>
-        <div class="book-card"></div>
-        <div class="book-card"></div>
-        <div class="book-card"></div>
-        <div class="book-card"></div>
-        <div class="book-card"></div>
-        <div class="book-card"></div>
-        <div class="book-card"></div>
+        <div class="book-card">
+          <div class="book-card-content">
+            <h2 class="book-title">The name of the wind</h2>
+            <h3 class="book-author">Patrick Rothfuss</h3>
+            <div class="book-pagemeter">
+              <span class="pages-read">0</span> out of <span class="total-pages">0</span> pages read
+            </div>
+          </div>
+        </div>
       </section>
     </div>
   </main>
   <footer>
     A project made by <a href="https://github.com/biribas">biribas</a> for <a href="https://www.theodinproject.com/">The Odin Project</a>
   </footer>
+
+  <div class="add-book-modal">
+    <form action="" autocomplete="off">
+      <h2>Add a new book</h2>
+      <div class="input">
+        <input type="text" id="book-title" name="book-title" placeholder=" " required>
+        <label for="book-title">Title</label>
+        <div class="error-message">This field is required</div>
+      </div>
+      <div class="input">
+        <input type="text" id="author-name" name="author-name" placeholder=" " required>
+        <label for="author-name">Author</label>
+        <div class="error-message">This field is required</div>
+      </div>
+      <div class="input">
+        <input type="number" min="0" id="pages" name="pages" placeholder=" " required>
+        <label for="pages">Pages</label>
+        <div class="error-message">This field is required</div>
+        <div class="error-message">Please, enter a valid number</div>
+      </div>
+      <button type="submit">Add book</button>
+    </form>
+  </div>
 </body>
 </html>
