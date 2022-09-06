@@ -2,7 +2,7 @@
 
 :root {
   font-family: 'Poppins', sans-serif;
-  --header-max-width: 1200px;
+  --max-width: 1200px;
   --transition-time: 0.1s;
 }
 
@@ -17,9 +17,11 @@
   box-sizing: border-box;
 }
 
-html {
-  position: relative;
+body {
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 header {
@@ -32,7 +34,7 @@ header {
   justify-content: space-between;
   margin: 0 auto;
   padding: 1.5rem 2rem;
-  max-width: var(--header-max-width);
+  max-width: var(--max-width);
 }
 
 .logo {
@@ -52,13 +54,35 @@ header {
   transition: background-color var(--transition-time) ease;
 }
 
-footer {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
+main {
+  flex: 1;
+}
+
+.main-content {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.pagemeter {
   text-align: center;
-  padding: .5rem;
+}
+
+.books-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
+  padding: 1rem 0;
+  gap: 1rem;
+}
+
+.book-card {
+  border: 1px solid black;
+  height: 20rem;
+}
+
+footer {
+  text-align: center;
+  padding: .5rem 1rem;
   font-size: 1.2rem;
 }
 
