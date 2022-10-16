@@ -30,6 +30,23 @@ button {
   cursor: pointer;
 }
 
+.add-book-button {
+  background-color: var(--accent-color);
+  color: var(--header-color);
+  font-weight: bold;
+  border-radius: 8px;
+  padding: .5rem;
+  transition: background-color var(--transition-time) ease;
+}
+
+.add-book-button:hover {
+  background-color: var(--hover-accent-color);
+}
+
+.add-book-button:active {
+  background-color: var(--accent-color);
+}
+
 body {
   position: relative;
   min-height: 100vh;
@@ -63,22 +80,8 @@ header {
   color: var(--accent-color);
 }
 
-.add-book-button {
-  background-color: var(--accent-color);
-  color: var(--header-color);
+header .add-book-button {
   font-size: 1.2rem;
-  font-weight: bold;
-  border-radius: 8px;
-  padding: .5rem;
-  transition: background-color var(--transition-time) ease;
-}
-
-.add-book-button:hover {
-  background-color: var(--hover-accent-color);
-}
-
-.add-book-button:active {
-  background-color: var(--accent-color);
 }
 
 main {
@@ -116,9 +119,11 @@ main {
 }
 
 .book-card-content {
+  height: 100%;
   padding: 1rem;
   display: flex;
   flex-direction: column;
+  gap: 1rem;
 }
 
 .book-card::before {
@@ -135,13 +140,23 @@ main {
   background-color: var(--hover-accent-color);
 }
 
+.book-card .wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
 .book-title {
+  --line-height: 2.5rem;
+  line-height: var(--line-height);
+  max-height: calc(2 * var(--line-height));
+  overflow: clip;
   word-wrap: break-word;
 }
 
 .book-author {
   color: grey;
-  margin-bottom: 1rem;
 }
 
 footer {
@@ -173,7 +188,6 @@ footer a:hover::after {
 }
 
 .add-book-modal {
-  display: none;
   position: absolute;  
   top: 50%;
   left: 50%;
@@ -194,7 +208,6 @@ footer a:hover::after {
 .input {
   position: relative;
   --padding: .5rem;
-  overflow: hidden;
 }
 
 input {
@@ -204,11 +217,16 @@ input {
   background-color: var(--header-color);
 }
 
-label, .error-message {
+label {
+  user-select: none;
+}
+
+.input > label, .error-message {
   position: absolute;
 }
 
-label {
+.input > label {
+  cursor: text;
   color: grey;
   padding: var(--padding);
   left: 0;
@@ -220,15 +238,44 @@ input:not(:placeholder-shown) + label {
   transform: translateX(-100%);
 }
 
+.is-read {
+  font-size: 1rem;
+  display: flex;
+  justify-content: start;
+  gap: .5rem;
+}
+
+.is-read > input {
+  width: 1rem;
+  accent-color: var(--accent-color);
+}
+
 .error-message {
+  position: absolute;
+  top: 0;
+  padding-left: var(--padding);
+  color: red;
+  opacity: 0;
+  font-size: .8rem;
+  transition: all var(--transition-time) ease;
+  z-index: -1;
+}
+
+.invalid {
+  border-color: red;
+}
+
+input.invalid:placeholder-shown ~ .empty-error,
+input.invalid:not(:placeholder-shown) ~ .invalid-error {
+  top: 100%;
+  opacity: 1;
+} 
+
+.overlay {
+  position: absolute;
+  top: 0; right: 0; bottom: 0; left: 0;
+  background-color: black;
+  opacity: 0.6;
   display: none;
 }
-
-.add-book-modal button {
-  padding: 0.5rem;  
-  background-color: var(--accent-color);
-  color: var(--header-color);
-  border-radius: 8px;
-}
-
 
