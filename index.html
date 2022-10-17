@@ -51,27 +51,32 @@
         <label for="book-title">Title</label>
         <div class="error-message empty-error">This field is required</div>
       </div>
+
       <div class="input">
         <input type="text" id="author-name" name="author-name" placeholder=" " required>
         <label for="author-name">Author</label>
         <div class="error-message empty-error">This field is required</div>
       </div>
+
       <div class="input">
         <input type="number" min="0" id="total-pages" name="total-pages" placeholder=" " required>
         <label for="total-pages">Total pages</label>
         <div class="error-message empty-error">This field is required</div>
         <div class="error-message invalid-error">Please, enter a valid number</div>
       </div>
+
       <div class="input">
         <input type="number" min="0" id="pages-read" name="pages-read" placeholder=" " required>
         <label for="pages-read">Pages already read</label>
         <div class="error-message empty-error">This field is required</div>
         <div class="error-message invalid-error">Please, enter a valid number</div>
       </div>
+
       <div class="is-read">
         <label for="isRead">Have you read the book?</label>
         <input type="checkbox" id="isRead" name="isRead" value="">
       </div>
+
       <button class="add-book-button" type="submit">Add book</button>
     </form>
   </div>
