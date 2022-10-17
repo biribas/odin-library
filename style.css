@@ -208,9 +208,11 @@ footer a:hover::after {
 .input {
   position: relative;
   --padding: .5rem;
+  overflow: hidden;
 }
 
 input {
+  position: relative;
   padding: var(--padding);
   width: 100%;
   border-radius: 10px;
@@ -221,11 +223,11 @@ label {
   user-select: none;
 }
 
-.input > label, .error-message {
+.input label, .error-message {
   position: absolute;
 }
 
-.input > label {
+.input label {
   cursor: text;
   color: grey;
   padding: var(--padding);
@@ -251,14 +253,13 @@ input:not(:placeholder-shown) + label {
 }
 
 .error-message {
-  position: absolute;
-  top: 0;
+  position: fixed;
   padding-left: var(--padding);
   color: red;
-  opacity: 0;
   font-size: .8rem;
+  opacity: 0;
   transition: all var(--transition-time) ease;
-  z-index: -1;
+  z-index: 0;
 }
 
 .invalid {
@@ -267,7 +268,6 @@ input:not(:placeholder-shown) + label {
 
 input.invalid:placeholder-shown ~ .empty-error,
 input.invalid:not(:placeholder-shown) ~ .invalid-error {
-  top: 100%;
   opacity: 1;
 } 
 
