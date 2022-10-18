@@ -22,11 +22,11 @@
 
 button, input {
   font: inherit;
-  border: none;
   outline: none;
 }
 
 button {
+  border: none;
   cursor: pointer;
 }
 
@@ -191,11 +191,16 @@ footer a:hover::after {
   position: absolute;  
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%) scale(0);
   padding: 2rem;
-  border: 1px solid black;
   border-radius: 10px;
   background-color: var(--bg-color);
+  transition: transform 0.2s ease-in-out;
+  z-index: 1;
+}
+
+.add-book-modal.active {
+  transform: translate(-50%, -50%) scale(1);
 }
 
 .add-book-modal form {
@@ -217,6 +222,7 @@ input {
   width: 100%;
   border-radius: 10px;
   background-color: var(--header-color);
+  border: 1px solid transparent;
 }
 
 label {
@@ -258,7 +264,7 @@ input:not(:placeholder-shown) + label {
   color: red;
   font-size: .8rem;
   opacity: 0;
-  transition: all var(--transition-time) ease;
+  transition: all 0.3s ease;
   z-index: 0;
 }
 
@@ -279,3 +285,6 @@ input.invalid:not(:placeholder-shown) ~ .invalid-error {
   display: none;
 }
 
+.overlay.active {
+  display: block;
+}
