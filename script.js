@@ -35,6 +35,39 @@ library.books = [new Book('The name of the wind', 'Patrick Rothfuss', 650, 300, 
 
 function main() {
   setUpListeners();
+  updateBooksGrid();
+}
+
+function createBookCard(book) {
+  const bookCard = document.createElement('div');
+  const bookCardContent = document.createElement('div');
+  const wrapper = document.createElement('div');
+  const title = document.createElement('h2');
+  const author = document.createElement('h3');
+  const bookPagemeter = document.createElement('div');
+
+  bookCard.classList.add('book-card');
+  bookCardContent.classList.add('book-card-content');
+  wrapper.classList.add('wrapper');
+  title.classList.add('book-title');
+  author.classList.add('book-author');
+  bookPagemeter.classList.add('bookPagemeter');
+
+  title.innerText = book.name;
+  author.innerText = book.author;
+  bookPagemeter.innerText = `${book.pagesRead} out of ${book.pages} pages read`;
+
+  wrapper.appendChild(title);
+  wrapper.appendChild(author);
+  bookCardContent.appendChild(wrapper);
+  bookCardContent.appendChild(bookPagemeter);
+  bookCard.appendChild(bookCardContent);
+  booksGrid.appendChild(bookCard);
+}
+
+function updateBooksGrid() {
+  booksGrid.innerHTML = "";
+  library.books.forEach(book => createBookCard(book));
 }
 
 function setUpListeners() {
