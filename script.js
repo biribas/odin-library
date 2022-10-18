@@ -8,6 +8,31 @@ const pagemeter = document.querySelector('.pagemeter');
 const totalPages = pagemeter.firstElementChildChild;
 const totalPagesRead = pagemeter.lastElementChild;
 
+const booksGrid = document.querySelector('.books-grid');
+
+class Book {
+  constructor(name, author, pages, pagesRead, isRead) {
+    this.name = name;
+    this.author = author;
+    this.pages = pages;
+    this.pagesRead = pagesRead;
+    this.isRead = isRead;
+  }
+
+  addBookToLibrary() {
+
+  }
+}
+
+class Library {
+  constructor() {
+    this.books = []
+  }
+}
+
+const library = new Library();
+library.books = [new Book('The name of the wind', 'Patrick Rothfuss', 650, 300, true), new Book('The wise man\'s fear', 'Patrick Rothfuss', 980, 500, false)];
+
 function main() {
   setUpListeners();
 }
@@ -50,3 +75,4 @@ function hideModal() {
 }
 
 document.addEventListener('DOMContentLoaded', main)
+
