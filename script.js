@@ -1,9 +1,12 @@
 const addBookHeaderButton = document.querySelector('header .add-book-button');
 
 const addBookModal = document.querySelector('.add-book-modal');
+const addBookModalButton = document.querySelector('form .add-book-button')
+
 const inputs = document.querySelectorAll('input');
 const overlay = document.querySelector('.overlay');
 
+// Pagemeter 
 const pagemeter = document.querySelector('.pagemeter');
 const totalPages = pagemeter.firstElementChildChild;
 const totalPagesRead = pagemeter.lastElementChild;
@@ -11,7 +14,7 @@ const totalPagesRead = pagemeter.lastElementChild;
 const booksGrid = document.querySelector('.books-grid');
 
 class Book {
-  constructor(name, author, pages, pagesRead, isRead) {
+  constructor(name, author, pages, pagesRead, isRead = false) {
     this.name = name;
     this.author = author;
     this.pages = pages;
@@ -20,6 +23,10 @@ class Book {
   }
 
   addBookToLibrary() {
+
+  }
+
+  updateBook() {
 
   }
 }
@@ -70,23 +77,27 @@ function updateBooksGrid() {
   library.books.forEach(book => createBookCard(book));
 }
 
+function addBook() {
+  const book = getBookFromInput();
+  library.addBookToLibrary(book);
+}
+
 function setUpListeners() {
   inputs.forEach(input => {
-    input.addEventListener('focusout', () => {
-      if (!input.checkValidity())
-        input.classList.add('invalid');
-    });
-
-    input.addEventListener('input', () => {
-      if (input.checkValidity())
-        input.classList.remove('invalid');
-    });
+    input.addEventListener('focusout', !input.checkValidity() && input.classList.add('invalid'));
+    input.addEventListener('input', input.checkValidity() && input.classList.remove('invalid'));
   });
 
-  document.addEventListener('submit', validateForm);
+  document.addEventListener('submit', submitForm);
 
-  addBookHeaderButton.addEventListener('click', showModal);
-  overlay.addEventListener('click', hideModal);
+  addBookHeaderButton.onclick = openAddBookModal;
+  overlay.onclick = hideModal;
+}
+
+function submitForm(event) {
+  if (!validateForm(event)) return;
+
+  addBook();
 }
 
 function validateForm(event) {
@@ -96,9 +107,11 @@ function validateForm(event) {
       event.preventDefault();
     }
   });
+
+  return !event.defaultPrevented;
 }
 
-function showModal() {
+function openAddBookModal() {
   addBookModal.classList.add('active');
   overlay.classList.add('active');
 }
