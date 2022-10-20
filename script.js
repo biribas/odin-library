@@ -84,8 +84,8 @@ function addBook() {
 
 function setUpListeners() {
   inputs.forEach(input => {
-    input.addEventListener('focusout', !input.checkValidity() && input.classList.add('invalid'));
-    input.addEventListener('input', input.checkValidity() && input.classList.remove('invalid'));
+    input.addEventListener('focusout', () => !input.checkValidity() && input.classList.add('invalid'));
+    input.addEventListener('input', () => input.checkValidity() && input.classList.remove('invalid'));
   });
 
   document.addEventListener('submit', submitForm);
