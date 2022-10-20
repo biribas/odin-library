@@ -23,7 +23,7 @@ class Book {
   }
 
   addBookToLibrary() {
-
+    library.books.push(this);
   }
 
   updateBook() {
@@ -79,7 +79,17 @@ function updateBooksGrid() {
 
 function addBook() {
   const book = getBookFromInput();
-  library.addBookToLibrary(book);
+  book.addBookToLibrary();
+}
+
+function getBookFromInput() {
+  const name = document.getElementById('book-title').value;
+  const author = document.getElementById('author-name').value;
+  const totalPages = document.getElementById('total-pages').value;
+  const pagesRead = document.getElementById('pages-read').value;
+  const isRead = document.getElementById('isRead').checked;
+
+  return new Book(name, author, totalPages, pagesRead, isRead);
 }
 
 function setUpListeners() {
@@ -98,6 +108,8 @@ function submitForm(event) {
   if (!validateForm(event)) return;
 
   addBook();
+
+  updateBooksGrid();
 }
 
 function validateForm(event) {
