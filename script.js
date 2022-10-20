@@ -2,8 +2,10 @@ const addBookHeaderButton = document.querySelector('header .add-book-button');
 
 const addBookModal = document.querySelector('.add-book-modal');
 const addBookModalButton = document.querySelector('form .add-book-button')
+const addBookModalCheckbox = document.querySelector('add-book-modal input[type="checkbox"]');
 
-const inputs = document.querySelectorAll('input');
+const inputFields = document.querySelectorAll('input:not([type="checkbox"])');
+
 const overlay = document.querySelector('.overlay');
 
 // Pagemeter 
@@ -93,17 +95,18 @@ function getBookFromInput() {
 }
 
 function setUpListeners() {
-  inputs.forEach(input => {
+  inputFields.forEach(input => {
     input.addEventListener('focusout', () => !input.checkValidity() && input.classList.add('invalid'));
     input.addEventListener('input', () => input.checkValidity() && input.classList.remove('invalid'));
   });
-
-  document.addEventListener('submit', submitForm);
 
   addBookHeaderButton.onclick = openAddBookModal;
   overlay.onclick = hideModal;
 
   addBookModal.addEventListener('transitionend', resetInputValues);
+
+  addBookModalCheckbox.addEventListener('input', toggleInput);
+  document.addEventListener('submit', submitForm);
 }
 
 function submitForm(event) {
@@ -116,7 +119,10 @@ function submitForm(event) {
 
 function validateForm(event) {
   event.preventDefault();
+
+  const inputs = event.target.querySelectorAll('input:not([type="checkbox"])');
   let isValid = true;
+
   inputs.forEach(input => {
     if (!input.checkValidity()) {
       input.classList.add('invalid');
@@ -125,6 +131,12 @@ function validateForm(event) {
   });
 
   return isValid;
+}
+
+function toggleInput(event) {
+  if (event.target.checked = true) {
+
+  }
 }
 
 function openAddBookModal() {
@@ -140,7 +152,6 @@ function resetInputValues(event) {
   if (event.target != event.currentTarget) return;
 
   const inputs = event.target.querySelectorAll('input:not([type="checkbox"])');
-  console.log(inputs);
   inputs.forEach(input => {
     input.classList.remove('invalid');
     input.value = "";
