@@ -102,6 +102,8 @@ function setUpListeners() {
 
   addBookHeaderButton.onclick = openAddBookModal;
   overlay.onclick = hideModal;
+
+  addBookModal.addEventListener('transitionend', resetInputValues);
 }
 
 function submitForm(event) {
@@ -132,6 +134,20 @@ function openAddBookModal() {
 
 function hideModal() {
   document.querySelectorAll('.active').forEach(query => query.classList.remove('active'));
+}
+
+function resetInputValues(event) {
+  if (event.target != event.currentTarget) return;
+
+  const inputs = event.target.querySelectorAll('input:not([type="checkbox"])');
+  console.log(inputs);
+  inputs.forEach(input => {
+    input.classList.remove('invalid');
+    input.value = "";
+  });
+
+  const checkbox = event.target.querySelector('input[type="checkbox"]');
+  checkbox.checked = false;
 }
 
 document.addEventListener('DOMContentLoaded', main)
