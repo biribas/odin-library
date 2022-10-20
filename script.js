@@ -108,8 +108,6 @@ function submitForm(event) {
   if (!validateForm(event)) return;
 
   addBook();
-
-  updateBooksGrid();
 }
 
 function validateForm(event) {
