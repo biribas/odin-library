@@ -2,7 +2,7 @@ const addBookHeaderButton = document.querySelector('header .add-book-button');
 
 const addBookModal = document.querySelector('.add-book-modal');
 const addBookModalButton = document.querySelector('form .add-book-button')
-const addBookModalCheckbox = document.querySelector('add-book-modal input[type="checkbox"]');
+const addBookModalCheckbox = document.querySelector('.add-book-modal input[type="checkbox"]');
 
 const inputFields = document.querySelectorAll('input:not([type="checkbox"])');
 
