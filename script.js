@@ -107,18 +107,22 @@ function setUpListeners() {
 function submitForm(event) {
   if (!validateForm(event)) return;
 
+  hideModal();
   addBook();
+  updateBooksGrid();
 }
 
 function validateForm(event) {
+  event.preventDefault();
+  let isValid = true;
   inputs.forEach(input => {
     if (!input.checkValidity()) {
       input.classList.add('invalid');
-      event.preventDefault();
+      isValid = false;
     }
   });
 
-  return !event.defaultPrevented;
+  return isValid;
 }
 
 function openAddBookModal() {
