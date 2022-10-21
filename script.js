@@ -134,8 +134,12 @@ function validateForm(event) {
 }
 
 function toggleInput(event) {
-  if (event.target.checked = true) {
+  const pagesReadInput = document.querySelector('#pages-read');
+  pagesReadInput.disabled = event.target.checked;
 
+  if (event.target.checked) {
+    pagesReadInput.value = "";
+    pagesReadInput.classList.remove('invalid');
   }
 }
 
@@ -157,9 +161,10 @@ function resetInputValues(event) {
     input.value = "";
   });
 
+  document.querySelector('#pages-read').disabled = false;
   const checkbox = event.target.querySelector('input[type="checkbox"]');
   checkbox.checked = false;
 }
 
-document.addEventListener('DOMContentLoaded', main)
+document.addEventListener('DOMContentLoaded', main);
 
