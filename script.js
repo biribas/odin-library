@@ -87,9 +87,9 @@ function addBook() {
 function getBookFromInput() {
   const name = document.getElementById('book-title').value;
   const author = document.getElementById('author-name').value;
-  const totalPages = document.getElementById('total-pages').value;
-  const pagesRead = document.getElementById('pages-read').value;
+  const totalPages = +document.getElementById('total-pages').value;
   const isRead = document.getElementById('isRead').checked;
+  const pagesRead = isRead ? totalPages : +document.getElementById('pages-read').value;
 
   return new Book(name, author, totalPages, pagesRead, isRead);
 }
@@ -110,17 +110,22 @@ function setUpListeners() {
 }
 
 function submitForm(event) {
-  if (!validateForm(event)) return;
+  event.preventDefault();
+  let validate;
+
+  if (event.target.id == "add-book-form") {
+    validate = validateAddBookForm;
+  }
+
+  if (!validate(event.target)) return;
 
   hideModal();
   addBook();
   updateBooksGrid();
 }
 
-function validateForm(event) {
-  event.preventDefault();
-
-  const inputs = event.target.querySelectorAll('input:not([type="checkbox"])');
+function validateInputs(form) {
+  const inputs = form.querySelectorAll('input:not([type="checkbox"])');
   let isValid = true;
 
   inputs.forEach(input => {
@@ -129,6 +134,28 @@ function validateForm(event) {
       isValid = false;
     }
   });
+
+  return isValid;
+}
+
+function validateAddBookForm(form) {
+  let isValid = validateInputs(form);
+
+  const totalPagesInput = document.getElementById('total-pages');
+  const isRead = document.getElementById('isRead').checked;
+
+  if (!totalPagesInput.checkValidity() || isRead)
+    return isValid;
+
+  const pagesReadInput = document.getElementById('pages-read');
+
+  const totalPages = +totalPagesInput.value;
+  const pagesRead = +pagesReadInput.value;
+
+  if (pagesRead > totalPages) {
+    isValid = false;
+    pagesReadInput.classList.add('invalid');
+  }
 
   return isValid;
 }
