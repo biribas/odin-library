@@ -3,7 +3,7 @@
 :root {
   font-family: 'Poppins', sans-serif;
   --max-width: 1200px;
-  --transition-time: 0.1s;
+  --transition-time: 0.3s;
 }
 
 .light-theme {
@@ -203,7 +203,7 @@ footer a:hover::after {
   transform: translate(-50%, -50%) scale(1);
 }
 
-.add-book-modal form {
+#add-book-form {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -214,6 +214,7 @@ footer a:hover::after {
   position: relative;
   --padding: .5rem;
   overflow: hidden;
+  transition: opacity var(--transition-time) ease-in-out;
 }
 
 input {
@@ -223,6 +224,24 @@ input {
   border-radius: 10px;
   background-color: var(--header-color);
   border: 1px solid transparent;
+}
+
+input:disabled {
+  opacity: 0.5;  
+}
+
+input:disabled ~ label {
+  opacity: 0.5;
+  cursor: default;
+}
+
+input[type="checkbox"] {
+  cursor: pointer;
+}
+
+input:focus + label,
+input:not(:placeholder-shown) + label {
+  transform: translateX(-100%);
 }
 
 label {
@@ -241,11 +260,6 @@ label {
   transition: transform var(--transition-time) ease;
 }
 
-input:focus + label,
-input:not(:placeholder-shown) + label {
-  transform: translateX(-100%);
-}
-
 .is-read {
   font-size: 1rem;
   display: flex;
@@ -259,12 +273,13 @@ input:not(:placeholder-shown) + label {
 }
 
 .error-message {
+  cursor: default;
   position: fixed;
   padding-left: var(--padding);
   color: red;
   font-size: .8rem;
   opacity: 0;
-  transition: all 0.3s ease;
+  transition: all var(--transition-time) ease;
   z-index: 0;
 }
 
