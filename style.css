@@ -28,9 +28,6 @@ button, input {
 button {
   border: none;
   cursor: pointer;
-}
-
-.add-book-button {
   background-color: var(--accent-color);
   color: var(--header-color);
   font-weight: bold;
@@ -39,11 +36,11 @@ button {
   transition: background-color var(--transition-time) ease;
 }
 
-.add-book-button:hover {
+button:hover {
   background-color: var(--hover-accent-color);
 }
 
-.add-book-button:active {
+button:active {
   background-color: var(--accent-color);
 }
 
@@ -187,7 +184,7 @@ footer a:hover::after {
   width: 100%;
 }
 
-.add-book-modal {
+.modal {
   position: absolute;  
   top: 50%;
   left: 50%;
@@ -199,11 +196,15 @@ footer a:hover::after {
   z-index: 1;
 }
 
-.add-book-modal.active {
+.modal.active {
   transform: translate(-50%, -50%) scale(1);
 }
 
-#add-book-form {
+#update-reading-modal {
+  width: 20rem;
+}
+
+form {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -226,7 +227,7 @@ input {
   border: 1px solid transparent;
 }
 
-input:disabled {
+[name="pages-read"]:disabled {
   opacity: 0.5;  
 }
 
