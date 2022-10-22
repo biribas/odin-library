@@ -32,8 +32,9 @@ class Book {
     library.books.push(this);
   }
 
-  updateBook() {
-
+  updateReading(pages) {
+    this.pagesRead = pages;
+    this.isRead = this.pagesRead == this.pages;
   }
 }
 
@@ -48,7 +49,7 @@ class Library {
 }
 
 const library = new Library();
-library.books = [new Book('The name of the wind', 'Patrick Rothfuss', 650, 300, true), new Book('The wise man\'s fear', 'Patrick Rothfuss', 980, 500, false)];
+library.books = [new Book('The name of the wind', 'Patrick Rothfuss', 650, 300, false), new Book('The wise man\'s fear', 'Patrick Rothfuss', 980, 500, false)];
 
 function main() {
   setUpListeners();
@@ -100,10 +101,13 @@ function addBook() {
   createBookCard(book);
 }
 
-function updatePagesRead() {
+function updateReading() {
   const index = +updateReadingModal.dataset.index;
   const book = library.books[index];
-  book.pagesRead = getUpdateFromInput(book);
+  const isRead = updateReadingModalCheckbox.checked;
+  const pages = isRead ? book.pages : +document.getElementById('update-pages-read').value;
+
+  book.updateReading(pages);
   updateBookCard(book.pagesRead, index);
 }
 
@@ -114,14 +118,7 @@ function getBookFromInput() {
   const isRead = document.getElementById('add-isread').checked;
   const pagesRead = isRead ? totalPages : +document.getElementById('add-pages-read').value;
 
-  return new Book(name, author, totalPages, pagesRead, isRead);
-}
-
-function getUpdateFromInput(book) {
-  const isRead = document.getElementById('update-isread').checked;
-  const pages = isRead ? book.pages : +document.getElementById('update-pages-read').value;
-
-  return pages;
+  return new Book(name, author, totalPages, pagesRead, totalPages == pagesRead);
 }
 
 function setUpListeners() {
@@ -133,11 +130,9 @@ function setUpListeners() {
   addBookHeaderButton.onclick = openAddBookModal;
   overlay.onclick = hideModal;
 
-  // addBookModal.addEventListener('submit', submitAddBookForm);
   addBookModal.addEventListener('transitionend', resetInputValues);
   addBookModalCheckbox.addEventListener('input', toggleInput);
 
-  // updateReadingModal.addEventListener('submit', submitUpdateReadingForm);
   updateReadingModal.addEventListener('transitionend', resetInputValues);
   updateReadingModalCheckbox.addEventListener('input', toggleInput);
 
@@ -158,13 +153,14 @@ function submitForm(event) {
   }
   else if (form.id === "update-reading-form") {
     validate = validateUpdateReadingForm;
-    action = updatePagesRead;
+    action = updateReading;
   }
 
-  if (!validate(form)) return;
-
-  action();
-  hideModal();
+  if (validate(form)) {
+    action();
+    hideModal();
+    inputFields.forEach(input => input.blur());
+  }
 }
 
 function validateInputs(form) {
@@ -227,8 +223,14 @@ function openAddBookModal() {
 
 function openUpdateReadingModal(event) {
   const bookName = event.currentTarget.querySelector('.book-title').innerText;
-  updateReadingModal.dataset.index = library.find(bookName);
+  const index = library.find(bookName);
+  const book = library.books[index];
+
+  updateReadingModal.dataset.index = index;
   updateReadingModal.classList.add('active');
+  updateReadingModalCheckbox.checked = book.isRead;
+  document.getElementById('update-pages-read').disabled = book.isRead;
+
   overlay.classList.add('active');
 }
 
@@ -255,9 +257,12 @@ function toggleInput(event) {
 }
 
 function resetInputValues(event) {
-  if (event.target != event.currentTarget) return;
+  const modal = event.currentTarget;
 
-  const modal = event.target;
+  if (event.target != modal) return;
+
+  const scaleY = modal.getBoundingClientRect().width / modal.offsetWidth;
+  if (scaleY != 0) return;
 
   const inputs = modal.querySelectorAll('input:not([type="checkbox"])');
   inputs.forEach(input => {
