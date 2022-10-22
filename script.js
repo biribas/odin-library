@@ -1,8 +1,12 @@
 const addBookHeaderButton = document.querySelector('header .add-book-button');
 
-const addBookModal = document.querySelector('.add-book-modal');
-const addBookModalButton = document.querySelector('form .add-book-button')
-const addBookModalCheckbox = document.querySelector('.add-book-modal input[type="checkbox"]');
+const addBookModal = document.querySelector('#add-book-modal');
+const addBookModalButton = document.querySelector('#add-book-modal .add-book-button')
+const addBookModalCheckbox = document.querySelector('#add-book-modal input[type="checkbox"]');
+
+const updateReadingModal = document.querySelector('#update-reading-modal');
+const updateReadingModalButton = document.querySelector('#update-reading-modal .update-reading-button')
+const updateReadingModalCheckbox = document.querySelector('#update-reading-modal input[type="checkbox"]');
 
 const inputFields = document.querySelectorAll('input:not([type="checkbox"])');
 
@@ -37,6 +41,10 @@ class Library {
   constructor() {
     this.books = []
   }
+
+  find(bookName) {
+    return library.books.findIndex(book => book.name === bookName);
+  }
 }
 
 const library = new Library();
@@ -64,7 +72,7 @@ function createBookCard(book) {
 
   title.innerText = book.name;
   author.innerText = book.author;
-  bookPagemeter.innerText = `${book.pagesRead} out of ${book.pages} pages read`;
+  bookPagemeter.innerHTML = `<span class="pages-read">${book.pagesRead}</span> out of <span class="total-pages">${book.pages}</span> pages read`;
 
   wrapper.appendChild(title);
   wrapper.appendChild(author);
@@ -72,6 +80,13 @@ function createBookCard(book) {
   bookCardContent.appendChild(bookPagemeter);
   bookCard.appendChild(bookCardContent);
   booksGrid.appendChild(bookCard);
+
+  bookCard.addEventListener('click', openUpdateReadingModal);
+}
+
+function updateBookCard(pages, index) {
+  const bookCard = document.querySelector(`.book-card:nth-child(${index + 1})`);
+  bookCard.querySelector('.pages-read').innerText = pages;
 }
 
 function updateBooksGrid() {
@@ -82,16 +97,31 @@ function updateBooksGrid() {
 function addBook() {
   const book = getBookFromInput();
   book.addBookToLibrary();
+  createBookCard(book);
+}
+
+function updatePagesRead() {
+  const index = +updateReadingModal.dataset.index;
+  const book = library.books[index];
+  book.pagesRead = getUpdateFromInput(book);
+  updateBookCard(book.pagesRead, index);
 }
 
 function getBookFromInput() {
   const name = document.getElementById('book-title').value;
   const author = document.getElementById('author-name').value;
   const totalPages = +document.getElementById('total-pages').value;
-  const isRead = document.getElementById('isRead').checked;
-  const pagesRead = isRead ? totalPages : +document.getElementById('pages-read').value;
+  const isRead = document.getElementById('add-isread').checked;
+  const pagesRead = isRead ? totalPages : +document.getElementById('add-pages-read').value;
 
   return new Book(name, author, totalPages, pagesRead, isRead);
+}
+
+function getUpdateFromInput(book) {
+  const isRead = document.getElementById('update-isread').checked;
+  const pages = isRead ? book.pages : +document.getElementById('update-pages-read').value;
+
+  return pages;
 }
 
 function setUpListeners() {
@@ -103,25 +133,38 @@ function setUpListeners() {
   addBookHeaderButton.onclick = openAddBookModal;
   overlay.onclick = hideModal;
 
+  // addBookModal.addEventListener('submit', submitAddBookForm);
   addBookModal.addEventListener('transitionend', resetInputValues);
-
   addBookModalCheckbox.addEventListener('input', toggleInput);
+
+  // updateReadingModal.addEventListener('submit', submitUpdateReadingForm);
+  updateReadingModal.addEventListener('transitionend', resetInputValues);
+  updateReadingModalCheckbox.addEventListener('input', toggleInput);
+
   document.addEventListener('submit', submitForm);
 }
 
 function submitForm(event) {
   event.preventDefault();
-  let validate;
 
-  if (event.target.id == "add-book-form") {
+  let validate;
+  let action;
+
+  const form = event.target;
+
+  if (form.id === "add-book-form") {
     validate = validateAddBookForm;
+    action = addBook;
+  }
+  else if (form.id === "update-reading-form") {
+    validate = validateUpdateReadingForm;
+    action = updatePagesRead;
   }
 
-  if (!validate(event.target)) return;
+  if (!validate(form)) return;
 
+  action();
   hideModal();
-  addBook();
-  updateBooksGrid();
 }
 
 function validateInputs(form) {
@@ -142,12 +185,12 @@ function validateAddBookForm(form) {
   let isValid = validateInputs(form);
 
   const totalPagesInput = document.getElementById('total-pages');
-  const isRead = document.getElementById('isRead').checked;
+  const isRead = document.getElementById('add-isread').checked;
 
   if (!totalPagesInput.checkValidity() || isRead)
     return isValid;
 
-  const pagesReadInput = document.getElementById('pages-read');
+  const pagesReadInput = document.getElementById('add-pages-read');
 
   const totalPages = +totalPagesInput.value;
   const pagesRead = +pagesReadInput.value;
@@ -160,14 +203,21 @@ function validateAddBookForm(form) {
   return isValid;
 }
 
-function toggleInput(event) {
-  const pagesReadInput = document.querySelector('#pages-read');
-  pagesReadInput.disabled = event.target.checked;
+function validateUpdateReadingForm(form) {
+  if (!validateInputs(form)) return false
 
-  if (event.target.checked) {
-    pagesReadInput.value = "";
-    pagesReadInput.classList.remove('invalid');
+  const index = +updateReadingModal.dataset.index;
+  const book = library.books[index];
+
+  const pagesReadInput = document.querySelector('#update-pages-read');
+  const pagesRead = +pagesReadInput.value;
+
+  if (pagesRead > book.pages) {
+    pagesReadInput.classList.add('invalid');
+    return false;
   }
+
+  return true;
 }
 
 function openAddBookModal() {
@@ -175,21 +225,48 @@ function openAddBookModal() {
   overlay.classList.add('active');
 }
 
+function openUpdateReadingModal(event) {
+  const bookName = event.currentTarget.querySelector('.book-title').innerText;
+  updateReadingModal.dataset.index = library.find(bookName);
+  updateReadingModal.classList.add('active');
+  overlay.classList.add('active');
+}
+
 function hideModal() {
   document.querySelectorAll('.active').forEach(query => query.classList.remove('active'));
+}
+
+function toggleInput(event) {
+  const checkbox = event.target;
+
+  let modal;
+  if (addBookModal.contains(checkbox))
+    modal = addBookModal;
+  else if (updateReadingModal.contains(checkbox))
+    modal = updateReadingModal
+
+  const pagesReadInput = modal.querySelector('[name="pages-read"]');
+  pagesReadInput.disabled = checkbox.checked;
+
+  if (checkbox.checked) {
+    pagesReadInput.value = "";
+    pagesReadInput.classList.remove('invalid');
+  }
 }
 
 function resetInputValues(event) {
   if (event.target != event.currentTarget) return;
 
-  const inputs = event.target.querySelectorAll('input:not([type="checkbox"])');
+  const modal = event.target;
+
+  const inputs = modal.querySelectorAll('input:not([type="checkbox"])');
   inputs.forEach(input => {
     input.classList.remove('invalid');
     input.value = "";
   });
 
-  document.querySelector('#pages-read').disabled = false;
-  const checkbox = event.target.querySelector('input[type="checkbox"]');
+  modal.querySelector('[name="pages-read"]').disabled = false;
+  const checkbox = modal.querySelector('input[type="checkbox"]');
   checkbox.checked = false;
 }
 
