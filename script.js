@@ -28,10 +28,6 @@ class Book {
     this.isRead = isRead;
   }
 
-  addBookToLibrary() {
-    library.books.push(this);
-  }
-
   updateReading(pages) {
     this.pagesRead = pages;
     this.isRead = this.pagesRead == this.pages;
@@ -41,6 +37,10 @@ class Book {
 class Library {
   constructor() {
     this.books = [];
+  }
+
+  add(book) {
+    this.books.push(book);
   }
 
   find(bookName) {
@@ -111,7 +111,7 @@ function updatePagemeter() {
 
 function addBook() {
   const book = getBookFromInput();
-  book.addBookToLibrary();
+  library.add(book);
   createBookCard(book);
   updatePagemeter();
 }
