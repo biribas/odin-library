@@ -14,8 +14,8 @@ const overlay = document.querySelector('.overlay');
 
 // Pagemeter 
 const pagemeter = document.querySelector('.pagemeter');
-const totalPages = pagemeter.firstElementChildChild;
-const totalPagesRead = pagemeter.lastElementChild;
+const totalPagesRead = pagemeter.firstElementChild;
+const totalPages = pagemeter.lastElementChild;
 
 const booksGrid = document.querySelector('.books-grid');
 
@@ -40,11 +40,19 @@ class Book {
 
 class Library {
   constructor() {
-    this.books = []
+    this.books = [];
   }
 
   find(bookName) {
-    return library.books.findIndex(book => book.name === bookName);
+    return this.books.findIndex(book => book.name === bookName);
+  }
+
+  getTotalPages() {
+    return this.books.reduce((previus, current) => previus + current.pages, 0);
+  }
+
+  getPagesRead() {
+    return this.books.reduce((previus, current) => previus + current.pagesRead, 0);
   }
 }
 
@@ -54,6 +62,7 @@ library.books = [new Book('The name of the wind', 'Patrick Rothfuss', 650, 300, 
 function main() {
   setUpListeners();
   updateBooksGrid();
+  updatePagemeter();
 }
 
 function createBookCard(book) {
@@ -95,10 +104,16 @@ function updateBooksGrid() {
   library.books.forEach(book => createBookCard(book));
 }
 
+function updatePagemeter() {
+  totalPagesRead.innerText = library.getPagesRead();
+  totalPages.innerText = library.getTotalPages();
+}
+
 function addBook() {
   const book = getBookFromInput();
   book.addBookToLibrary();
   createBookCard(book);
+  updatePagemeter();
 }
 
 function updateReading() {
@@ -109,6 +124,7 @@ function updateReading() {
 
   book.updateReading(pages);
   updateBookCard(book.pagesRead, index);
+  updatePagemeter();
 }
 
 function getBookFromInput() {
