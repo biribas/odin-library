@@ -83,6 +83,7 @@ header .add-book-button {
 
 main {
   flex: 1;
+  position: relative;
 }
 
 .main-content {
@@ -93,6 +94,8 @@ main {
 
 .pagemeter {
   text-align: center;
+  font-size: 1.5rem;
+  color: var(--accent-color);
 }
 
 .books-grid {
@@ -292,6 +295,27 @@ input.invalid:placeholder-shown ~ .empty-error,
 input.invalid:not(:placeholder-shown) ~ .invalid-error {
   opacity: 1;
 } 
+
+#empty-library-message {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0.6;
+  color: var(--accent-color);
+  text-align: center;
+  user-select: none;
+  z-index: -1;
+  display: none;
+}
+
+#empty-library-message i {
+  font-size: 20rem;
+}
+
+#empty-library-message p {
+  font-size: 1.5rem;
+}
 
 .overlay {
   position: absolute;
