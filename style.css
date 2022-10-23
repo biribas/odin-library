@@ -147,7 +147,8 @@ main {
   justify-content: center;
 }
 
-.book-title {
+.book-title, 
+.book-info .name {
   --line-height: 2.5rem;
   line-height: var(--line-height);
   max-height: calc(2 * var(--line-height));
@@ -155,8 +156,15 @@ main {
   word-wrap: break-word;
 }
 
-.book-author {
+.book-author,
+.book-info .author {
+  line-height: 2.5rem;
+  height: 2.5rem;
   color: grey;
+  overflow: clip;
+  word-wrap: break-word;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 footer {
@@ -204,7 +212,12 @@ footer a:hover::after {
 }
 
 #update-reading-modal {
-  width: 20rem;
+  max-width: 30rem;
+}
+
+.book-info {
+  text-align: center;
+  width: 100%;
 }
 
 form {

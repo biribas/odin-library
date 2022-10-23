@@ -243,6 +243,8 @@ function openUpdateReadingModal(event) {
   const book = library.books[index];
 
   updateReadingModal.dataset.index = index;
+  updateReadingModal.querySelector('.name').innerText = bookName;
+  updateReadingModal.querySelector('.author').innerText = book.author;
   updateReadingModal.classList.add('active');
   updateReadingModalCheckbox.checked = book.isRead;
   document.getElementById('update-pages-read').disabled = book.isRead;
