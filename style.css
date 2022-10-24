@@ -254,12 +254,20 @@ footer a:hover::after {
 }
 
 #remove-book-modal .yes {
+  background-color: #e7120d;
+}
+
+#remove-book-modal .yes:hover {
   background-color: #b90e0a;
 }
 
 #remove-book-modal .no {
   background-color: lightgrey;
   color: black;
+}
+
+#remove-book-modal .no:hover {
+  background-color: #a9a9a9;
 }
 
 #remove-book-modal .book-name::before,
