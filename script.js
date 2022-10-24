@@ -8,6 +8,9 @@ const updateReadingModal = document.querySelector('#update-reading-modal');
 const updateReadingModalButton = document.querySelector('#update-reading-modal .update-reading-button')
 const updateReadingModalCheckbox = document.querySelector('#update-reading-modal input[type="checkbox"]');
 
+const removeBookModal = document.querySelector('#remove-book-modal');
+const removeBookButtons = removeBookModal.querySelector('.buttons');
+
 const inputFields = document.querySelectorAll('input:not([type="checkbox"])');
 
 const overlay = document.querySelector('.overlay');
@@ -43,6 +46,10 @@ class Library {
     this.books.push(book);
   }
 
+  remove(index) {
+    this.books.splice(index, 1);
+  }
+
   find(bookName) {
     return this.books.findIndex(book => book.name === bookName);
   }
@@ -67,6 +74,7 @@ function main() {
 
 function createBookCard(book) {
   const bookCard = document.createElement('div');
+  const removeCard = document.createElement('i');
   const bookCardContent = document.createElement('div');
   const wrapper = document.createElement('div');
   const title = document.createElement('h2');
@@ -74,6 +82,7 @@ function createBookCard(book) {
   const bookPagemeter = document.createElement('div');
 
   bookCard.classList.add('book-card');
+  removeCard.classList.add('ph-x-fill', 'remove-card-button');
   bookCardContent.classList.add('book-card-content');
   wrapper.classList.add('wrapper');
   title.classList.add('book-title');
@@ -88,10 +97,17 @@ function createBookCard(book) {
   wrapper.appendChild(author);
   bookCardContent.appendChild(wrapper);
   bookCardContent.appendChild(bookPagemeter);
+  bookCard.appendChild(removeCard);
   bookCard.appendChild(bookCardContent);
   booksGrid.appendChild(bookCard);
 
   bookCard.addEventListener('click', openUpdateReadingModal);
+  removeCard.addEventListener('click', openRemoveCardModal);
+}
+
+function removeBookCard(index) {
+  const bookCard = document.querySelector(`.book-card:nth-child(${index + 1})`);
+  bookCard.remove();
 }
 
 function updateBookCard(pages, index) {
@@ -113,6 +129,13 @@ function addBook() {
   const book = getBookFromInput();
   library.add(book);
   createBookCard(book);
+  updatePagemeter();
+}
+
+function removeBook() {
+  const index = +removeBookModal.dataset.index;
+  library.remove(index);
+  removeBookCard(index);
   updatePagemeter();
 }
 
@@ -152,6 +175,8 @@ function setUpListeners() {
   updateReadingModal.addEventListener('transitionend', resetInputValues);
   updateReadingModalCheckbox.addEventListener('input', toggleInput);
 
+  removeBookButtons.addEventListener('click', handleRemoveBook);
+
   document.addEventListener('submit', submitForm);
 }
 
@@ -177,6 +202,15 @@ function submitForm(event) {
     hideModal();
     inputFields.forEach(input => input.blur());
   }
+}
+
+function handleRemoveBook(event) {
+  if (event.target.tagName != "BUTTON") return;
+
+  if (event.target.className === "yes")
+    removeBook();
+
+  hideModal();
 }
 
 function validateInputs(form) {
@@ -238,6 +272,8 @@ function openAddBookModal() {
 }
 
 function openUpdateReadingModal(event) {
+  if (event.target.className.includes('remove-card-button')) return;
+
   const bookName = event.currentTarget.querySelector('.book-title').innerText;
   const index = library.find(bookName);
   const book = library.books[index];
@@ -250,6 +286,17 @@ function openUpdateReadingModal(event) {
   document.getElementById('update-pages-read').disabled = book.isRead;
 
   overlay.classList.add('active');
+}
+
+function openRemoveCardModal(event) {
+  removeBookModal.classList.add('active');
+  overlay.classList.add('active');
+
+  const bookName = event.target.parentNode.querySelector('.book-title').innerText;
+  const index = library.find(bookName);
+
+  removeBookModal.dataset.index = index;
+  removeBookModal.querySelector('.book-name').innerText = bookName;
 }
 
 function hideModal() {

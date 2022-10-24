@@ -115,12 +115,28 @@ main {
   box-shadow: 5px 5px 10px var(--shadow-color);
   padding-left: var(--padding-left);
   position: relative;
-  text-align: center;
+}
+
+.remove-card-button {
+  position: absolute;
+  --font-size: 1.5rem;
+  font-size: var(--font-size);
+  font-weight: normal;
+  height: var(--font-size);
+  width: var(--font-size);
+  top: .5rem;
+  right: .5rem;
+  transition: all 0.2s ease-in-out;
+}
+
+.remove-card-button:hover {
+  transform: scale(1.2) rotate(90deg);
 }
 
 .book-card-content {
   height: 100%;
   padding: 1rem;
+  padding-right: 3rem;
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -144,7 +160,6 @@ main {
   flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: center;
 }
 
 .book-title, 
@@ -218,6 +233,38 @@ footer a:hover::after {
 .book-info {
   text-align: center;
   width: 100%;
+}
+
+#remove-book-modal {
+  max-width: 20rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  text-align: center;
+}
+
+#remove-book-modal .buttons {
+  display: flex;
+  gap: 2rem;
+}
+
+#remove-book-modal button {
+  width: 4rem;
+}
+
+#remove-book-modal .yes {
+  background-color: #b90e0a;
+}
+
+#remove-book-modal .no {
+  background-color: lightgrey;
+  color: black;
+}
+
+#remove-book-modal .book-name::before,
+#remove-book-modal .book-name::after {
+  content: "\"";
 }
 
 form {
