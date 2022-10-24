@@ -14,6 +14,7 @@ const removeBookButtons = removeBookModal.querySelector('.buttons');
 const inputFields = document.querySelectorAll('input:not([type="checkbox"])');
 
 const overlay = document.querySelector('.overlay');
+const emptyLibraryMessage = document.getElementById('empty-library-message');
 
 // Pagemeter 
 const pagemeter = document.querySelector('.pagemeter');
@@ -51,7 +52,8 @@ class Library {
   }
 
   find(bookName) {
-    return this.books.findIndex(book => book.name === bookName);
+    bookName = bookName.toLowerCase();
+    return this.books.findIndex(book => book.name.toLowerCase() === bookName);
   }
 
   getTotalPages() {
@@ -230,6 +232,13 @@ function validateInputs(form) {
 function validateAddBookForm(form) {
   let isValid = validateInputs(form);
 
+  const nameInput = form.querySelector('#book-title');
+  const bookName = nameInput.value;
+  if (library.find(bookName) != -1) {
+    nameInput.classList.add('invalid');
+    return false;
+  }
+
   const totalPagesInput = document.getElementById('total-pages');
   const isRead = document.getElementById('add-isread').checked;
 
@@ -242,8 +251,8 @@ function validateAddBookForm(form) {
   const pagesRead = +pagesReadInput.value;
 
   if (pagesRead > totalPages) {
-    isValid = false;
     pagesReadInput.classList.add('invalid');
+    return false;
   }
 
   return isValid;
