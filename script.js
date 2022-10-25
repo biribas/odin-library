@@ -129,14 +129,22 @@ function updatePagemeter() {
 
 function addBook() {
   const book = getBookFromInput();
+
   library.add(book);
+  if (library.books.length === 1)
+    toggleEmptyMessge();
+
   createBookCard(book);
   updatePagemeter();
 }
 
 function removeBook() {
   const index = +removeBookModal.dataset.index;
+
   library.remove(index);
+  if (library.books.length === 0)
+    toggleEmptyMessge();
+
   removeBookCard(index);
   updatePagemeter();
 }
@@ -347,6 +355,11 @@ function resetInputValues(event) {
   modal.querySelector('[name="pages-read"]').disabled = false;
   const checkbox = modal.querySelector('input[type="checkbox"]');
   checkbox.checked = false;
+}
+
+function toggleEmptyMessge() {
+  emptyLibraryMessage.classList.toggle('hidden');
+  pagemeter.classList.toggle('hidden');
 }
 
 document.addEventListener('DOMContentLoaded', main);
