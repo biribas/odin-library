@@ -46,7 +46,7 @@ button:active {
 
 body {
   position: relative;
-  min-height: 100vh;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -83,7 +83,6 @@ header .add-book-button {
 
 main {
   flex: 1;
-  position: relative;
 }
 
 .main-content {
@@ -103,6 +102,10 @@ main {
   grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
   padding: 1rem 0;
   gap: 1rem;
+}
+
+.books-grid:empty {
+  padding: 0;
 }
 
 .book-card {
@@ -364,17 +367,19 @@ input.invalid:not(:placeholder-shown) ~ .invalid-error {
   opacity: 1;
 } 
 
+#empty-library-message-wrapper {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 #empty-library-message {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   opacity: 0.6;
   color: var(--accent-color);
   text-align: center;
   user-select: none;
   z-index: -1;
-  display: none;
 }
 
 #empty-library-message i {
@@ -395,6 +400,10 @@ input.invalid:not(:placeholder-shown) ~ .invalid-error {
 
 .overlay.active {
   display: block;
+}
+
+.hidden {
+  display: none;
 }
 
 /* Remove arrows from input type numbers */
