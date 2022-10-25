@@ -27,7 +27,7 @@
       <section class="books-grid"></section>
     </div>
 
-    <div id="empty-library-message">
+    <div class="hidden" id="empty-library-message">
       <i class="ph-smiley-sad-light"></i>
       <p>Library is empty</p>
     </div>
@@ -45,6 +45,7 @@
         <input type="text" id="book-title" name="book-title" placeholder=" " required>
         <label for="book-title">Title</label>
         <div class="error-message empty-error">This field is required</div>
+        <div class="error-message invalid-error">Book already registered</div>
       </div>
 
       <div class="input">
