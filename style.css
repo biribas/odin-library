@@ -403,7 +403,7 @@ input.invalid:not(:placeholder-shown) ~ .invalid-error {
 }
 
 .hidden {
-  display: none;
+  display: none !important;
 }
 
 /* Remove arrows from input type numbers */

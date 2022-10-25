@@ -14,7 +14,7 @@ const removeBookButtons = removeBookModal.querySelector('.buttons');
 const inputFields = document.querySelectorAll('input:not([type="checkbox"])');
 
 const overlay = document.querySelector('.overlay');
-const emptyLibraryMessage = document.getElementById('empty-library-message');
+const emptyLibraryMessage = document.getElementById('empty-library-message-wrapper');
 
 // Pagemeter 
 const pagemeter = document.querySelector('.pagemeter');
