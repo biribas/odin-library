@@ -25,25 +25,6 @@ button, input {
   outline: none;
 }
 
-button {
-  border: none;
-  cursor: pointer;
-  background-color: var(--accent-color);
-  color: var(--header-color);
-  font-weight: bold;
-  border-radius: 8px;
-  padding: .5rem;
-  transition: background-color var(--transition-time) ease;
-}
-
-button:hover {
-  background-color: var(--hover-accent-color);
-}
-
-button:active {
-  background-color: var(--accent-color);
-}
-
 body {
   position: relative;
   min-height: 100vh;
@@ -77,8 +58,45 @@ header {
   color: var(--accent-color);
 }
 
-header .add-book-button {
+button {
+  border: none;
+  cursor: pointer;
+  background-color: var(--accent-color);
+  color: var(--header-color);
+  font-weight: bold;
+  border-radius: 8px;
+  padding: .5rem;
+  transition: background-color var(--transition-time) ease;
+}
+
+button:hover {
+  background-color: var(--hover-accent-color);
+}
+
+button:active {
+  background-color: var(--accent-color);
+}
+
+.add-book-button.standard-version {
   font-size: 1.2rem;
+}
+
+.add-book-button.mobile-version {
+  display: none;
+  --size: 3.5rem;
+  border-radius: 50%;
+  font-size: 3rem;
+  width: var(--size);
+  height: var(--size);
+  position: fixed;  
+  right: 2rem;
+  bottom: 2rem;
+  z-index: 1;
+}
+
+.add-book-button.mobile-version.bottom-of-page {
+  position: absolute; 
+  bottom: 0;
 }
 
 main {
@@ -101,7 +119,7 @@ main {
 
 .books-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(20rem, 80%), 1fr));
   padding: 1rem 0;
   gap: 1rem;
 }
@@ -216,7 +234,7 @@ footer a:hover::after {
 }
 
 .modal {
-  position: absolute;  
+  position: fixed;  
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%) scale(0);
@@ -224,15 +242,12 @@ footer a:hover::after {
   border-radius: 10px;
   background-color: var(--bg-color);
   transition: transform 0.2s ease-in-out;
-  z-index: 1;
+  z-index: 3;
+  width: min(75%, 25rem);
 }
 
 .modal.active {
   transform: translate(-50%, -50%) scale(1);
-}
-
-#update-reading-modal {
-  max-width: 30rem;
 }
 
 .book-info {
@@ -399,6 +414,7 @@ input.invalid:not(:placeholder-shown) ~ .invalid-error {
   background-color: black;
   opacity: 0.6;
   display: none;
+  z-index: 2;
 }
 
 .overlay.active {
@@ -422,4 +438,22 @@ input::-webkit-inner-spin-button {
 input[type=number] {
   -moz-appearance: textfield;
   appearance: textfield;
+}
+
+@media only screen and (max-width: 450px) {
+  .header-content {
+    justify-content: center;
+    padding: 1rem;
+    font-size: 1.2rem;
+  }
+
+  .add-book-button.standard-version {
+    display: none;
+  }
+  
+  .add-book-button.mobile-version {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 }
