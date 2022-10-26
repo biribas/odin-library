@@ -37,11 +37,15 @@ body {
 header {
   box-shadow: 0px 2px 10px var(--shadow-color);
   background-color: var(--header-color);
+  position: sticky;
+  top: 0;
+  z-index: 1;
 }
 
 .header-content {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   margin: 0 auto;
   padding: 1.5rem 2rem;
   max-width: var(--max-width);
@@ -77,26 +81,11 @@ button:active {
   background-color: var(--accent-color);
 }
 
-.add-book-button.standard-version {
+.add-book-button {
   font-size: 1.2rem;
-}
-
-.add-book-button.mobile-version {
-  display: none;
-  --size: 3.5rem;
-  border-radius: 50%;
-  font-size: 3rem;
-  width: var(--size);
-  height: var(--size);
-  position: fixed;  
-  right: 2rem;
-  bottom: 2rem;
-  z-index: 1;
-}
-
-.add-book-button.mobile-version.bottom-of-page {
-  position: absolute; 
-  bottom: 0;
+  display: flex;
+  align-items: center;
+  gap: .25rem;
 }
 
 main {
@@ -207,7 +196,8 @@ main {
 
 footer {
   text-align: center;
-  padding: .5rem 1rem;
+  padding: 0rem 1rem;
+  padding-bottom: 1rem;
   font-size: 1.2rem;
 }
 
@@ -243,7 +233,7 @@ footer a:hover::after {
   background-color: var(--bg-color);
   transition: transform 0.2s ease-in-out;
   z-index: 3;
-  width: min(75%, 25rem);
+  width: min(90%, 25rem);
 }
 
 .modal.active {
@@ -442,18 +432,21 @@ input[type=number] {
 
 @media only screen and (max-width: 450px) {
   .header-content {
-    justify-content: center;
-    padding: 1rem;
+    padding: 1rem 2rem;
     font-size: 1.2rem;
   }
 
-  .add-book-button.standard-version {
+  #add-book-button-text {
     display: none;
   }
-  
-  .add-book-button.mobile-version {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+
+  .add-book-button {
+    background-color: var(--header-color);
+    color: var(--accent-color);
+    font-size: 2rem;
+  }
+
+  .add-book-button:hover {
+    background-color: var(--header-color);
   }
 }

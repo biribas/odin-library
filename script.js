@@ -1,5 +1,4 @@
-const addBookButtonStandard = document.querySelector('.add-book-button.standard-version');
-const addBookButtonMobile = document.querySelector('.add-book-button.mobile-version');
+const addBookButton = document.querySelector('.add-book-button');
 
 const addBookModal = document.querySelector('#add-book-modal');
 const addBookModalButton = document.querySelector('#add-book-modal button')
@@ -73,7 +72,6 @@ function main() {
   setUpListeners();
   updateBooksGrid();
   updatePagemeter();
-  checkMobileButtonPosition();
 }
 
 function createBookCard(book) {
@@ -178,8 +176,7 @@ function setUpListeners() {
     input.addEventListener('input', () => input.checkValidity() && input.classList.remove('invalid'));
   });
 
-  addBookButtonStandard.onclick = openAddBookModal;
-  addBookButtonMobile.onclick = openAddBookModal;
+  addBookButton.onclick = openAddBookModal;
   overlay.onclick = hideModal;
 
   addBookModal.addEventListener('transitionend', resetInputValues);
@@ -191,7 +188,6 @@ function setUpListeners() {
   removeBookButtons.addEventListener('click', handleRemoveBook);
 
   document.addEventListener('submit', submitForm);
-  window.addEventListener('scroll', debounce(checkMobileButtonPosition));
 }
 
 function submitForm(event) {
@@ -364,32 +360,6 @@ function resetInputValues(event) {
 function toggleEmptyMessge() {
   emptyLibraryMessage.classList.toggle('hidden');
   pagemeter.classList.toggle('hidden');
-}
-
-function checkMobileButtonPosition() {
-  const footer = document.querySelector('footer');
-  const footerTop = footer.offsetTop;
-  const windowBottom = window.scrollY + window.innerHeight;
-
-  if (footerTop <= windowBottom)
-    addBookButtonMobile.classList.add('bottom-of-page');
-  else
-    addBookButtonMobile.classList.remove('bottom-of-page');
-}
-
-function debounce(func, wait = 20, imediate = true) {
-  let timeout;
-  let context = this, args = arguments;
-  return function() {
-    const later = function() {
-      timeout = null;
-      if (!imediate) func.apply(context, args);
-    }
-    const callNow = imediate && !timeout;
-    clearTimeout(timeout);
-    timeout = setTimeout(later, wait);
-    if (callNow) func.apply(context, args);
-  };
 }
 
 document.addEventListener('DOMContentLoaded', main);
