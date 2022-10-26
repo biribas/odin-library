@@ -81,7 +81,7 @@ button:active {
   background-color: var(--accent-color);
 }
 
-.add-book-button {
+#add-book-button {
   font-size: 1.2rem;
   display: flex;
   align-items: center;
@@ -100,20 +100,20 @@ main {
   padding: 0 2rem;
 }
 
-.pagemeter {
+#pagemeter {
   text-align: center;
   font-size: 1.5rem;
   color: var(--accent-color);
 }
 
-.books-grid {
+#books-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(min(20rem, 80%), 1fr));
   padding: 1rem 0;
   gap: 1rem;
 }
 
-.books-grid:empty {
+#books-grid:empty {
   padding: 0;
 }
 
@@ -398,7 +398,7 @@ input.invalid:not(:placeholder-shown) ~ .invalid-error {
   font-size: 1.5rem;
 }
 
-.overlay {
+#overlay {
   position: absolute;
   top: 0; right: 0; bottom: 0; left: 0;
   background-color: black;
@@ -407,7 +407,7 @@ input.invalid:not(:placeholder-shown) ~ .invalid-error {
   z-index: 2;
 }
 
-.overlay.active {
+#overlay.active {
   display: block;
 }
 
@@ -440,13 +440,13 @@ input[type=number] {
     display: none;
   }
 
-  .add-book-button {
+  #add-book-button {
     background-color: var(--header-color);
     color: var(--accent-color);
     font-size: 2rem;
   }
 
-  .add-book-button:hover {
+  #add-book-button:hover {
     background-color: var(--header-color);
   }
 }

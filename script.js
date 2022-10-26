@@ -1,27 +1,27 @@
-const addBookButton = document.querySelector('.add-book-button');
+const addBookButton = document.getElementById('add-book-button');
 
-const addBookModal = document.querySelector('#add-book-modal');
-const addBookModalButton = document.querySelector('#add-book-modal button')
-const addBookModalCheckbox = document.querySelector('#add-book-modal input[type="checkbox"]');
+const addBookModal = document.getElementById('add-book-modal');
+const addBookModalButton = addBookModal.querySelector('button')
+const addBookModalCheckbox = addBookModal.querySelector('input[type="checkbox"]');
 
-const updateReadingModal = document.querySelector('#update-reading-modal');
-const updateReadingModalButton = document.querySelector('#update-reading-modal .update-reading-button')
-const updateReadingModalCheckbox = document.querySelector('#update-reading-modal input[type="checkbox"]');
+const updateReadingModal = document.getElementById('update-reading-modal');
+const updateReadingModalButton = updateReadingModal.querySelector('button')
+const updateReadingModalCheckbox = updateReadingModal.querySelector('input[type="checkbox"]');
 
-const removeBookModal = document.querySelector('#remove-book-modal');
+const removeBookModal = document.getElementById('remove-book-modal');
 const removeBookButtons = removeBookModal.querySelector('.buttons');
 
 const inputFields = document.querySelectorAll('input:not([type="checkbox"])');
 
-const overlay = document.querySelector('.overlay');
+const overlay = document.getElementById('overlay');
 const emptyLibraryMessage = document.getElementById('empty-library-message-wrapper');
 
 // Pagemeter 
-const pagemeter = document.querySelector('.pagemeter');
+const pagemeter = document.getElementById('pagemeter');
 const totalPagesRead = pagemeter.firstElementChild;
 const totalPages = pagemeter.lastElementChild;
 
-const booksGrid = document.querySelector('.books-grid');
+const booksGrid = document.getElementById('books-grid');
 
 class Book {
   constructor(name, author, pages, pagesRead, isRead = false) {
@@ -56,23 +56,20 @@ class Library {
     return this.books.findIndex(book => book.name.toLowerCase() === bookName);
   }
 
-  getTotalPages() {
+  get size() {
+    return this.books.length;
+  }
+
+  get totalPages() {
     return this.books.reduce((previus, current) => previus + current.pages, 0);
   }
 
-  getPagesRead() {
+  get pagesRead() {
     return this.books.reduce((previus, current) => previus + current.pagesRead, 0);
   }
 }
 
 const library = new Library();
-library.books = [new Book('The name of the wind', 'Patrick Rothfuss', 650, 300, false), new Book('The wise man\'s fear', 'Patrick Rothfuss', 980, 500, false)];
-
-function main() {
-  setUpListeners();
-  updateBooksGrid();
-  updatePagemeter();
-}
 
 function createBookCard(book) {
   const bookCard = document.createElement('div');
@@ -117,21 +114,16 @@ function updateBookCard(pages, index) {
   bookCard.querySelector('.pages-read').innerText = pages;
 }
 
-function updateBooksGrid() {
-  booksGrid.innerHTML = "";
-  library.books.forEach(book => createBookCard(book));
-}
-
 function updatePagemeter() {
-  totalPagesRead.innerText = library.getPagesRead();
-  totalPages.innerText = library.getTotalPages();
+  totalPagesRead.innerText = library.pagesRead;
+  totalPages.innerText = library.totalPages;
 }
 
 function addBook() {
   const book = getBookFromInput();
 
   library.add(book);
-  if (library.books.length === 1)
+  if (library.size === 1)
     toggleEmptyMessge();
 
   createBookCard(book);
@@ -142,7 +134,7 @@ function removeBook() {
   const index = +removeBookModal.dataset.index;
 
   library.remove(index);
-  if (library.books.length === 0)
+  if (library.size === 0)
     toggleEmptyMessge();
 
   removeBookCard(index);
@@ -168,26 +160,6 @@ function getBookFromInput() {
   const pagesRead = isRead ? totalPages : +document.getElementById('add-pages-read').value;
 
   return new Book(name, author, totalPages, pagesRead, totalPages == pagesRead);
-}
-
-function setUpListeners() {
-  inputFields.forEach(input => {
-    input.addEventListener('focusout', () => !input.checkValidity() && input.classList.add('invalid'));
-    input.addEventListener('input', () => input.checkValidity() && input.classList.remove('invalid'));
-  });
-
-  addBookButton.onclick = openAddBookModal;
-  overlay.onclick = hideModal;
-
-  addBookModal.addEventListener('transitionend', resetInputValues);
-  addBookModalCheckbox.addEventListener('input', toggleInput);
-
-  updateReadingModal.addEventListener('transitionend', resetInputValues);
-  updateReadingModalCheckbox.addEventListener('input', toggleInput);
-
-  removeBookButtons.addEventListener('click', handleRemoveBook);
-
-  document.addEventListener('submit', submitForm);
 }
 
 function submitForm(event) {
@@ -272,7 +244,7 @@ function validateUpdateReadingForm(form) {
   const index = +updateReadingModal.dataset.index;
   const book = library.books[index];
 
-  const pagesReadInput = document.querySelector('#update-pages-read');
+  const pagesReadInput = document.getElementById('update-pages-read');
   const pagesRead = +pagesReadInput.value;
 
   if (pagesRead > book.pages) {
@@ -294,7 +266,7 @@ function openUpdateReadingModal(event) {
   const bookName = event.currentTarget.querySelector('.book-title').innerText;
   const index = library.find(bookName);
   const book = library.books[index];
-
+ 
   updateReadingModal.dataset.index = index;
   updateReadingModal.querySelector('.name').innerText = bookName;
   updateReadingModal.querySelector('.author').innerText = book.author;
@@ -362,5 +334,38 @@ function toggleEmptyMessge() {
   pagemeter.classList.toggle('hidden');
 }
 
-document.addEventListener('DOMContentLoaded', main);
+function setUpListeners() {
+  inputFields.forEach(input => {
+    input.addEventListener('focusout', () => !input.checkValidity() && input.classList.add('invalid'));
+    input.addEventListener('input', () => input.checkValidity() && input.classList.remove('invalid'));
+  });
+
+  addBookButton.onclick = openAddBookModal;
+  overlay.onclick = hideModal;
+
+  addBookModal.addEventListener('transitionend', resetInputValues);
+  addBookModalCheckbox.addEventListener('input', toggleInput);
+
+  updateReadingModal.addEventListener('transitionend', resetInputValues);
+  updateReadingModalCheckbox.addEventListener('input', toggleInput);
+
+  removeBookButtons.addEventListener('click', handleRemoveBook);
+
+  document.addEventListener('submit', submitForm);
+}
+
+function setUpBooksGrid() {
+  if (library.size === 0) return;
+
+  toggleEmptyMessge();
+  updatePagemeter();
+  library.books.forEach(book => createBookCard(book));
+}
+
+function setUp() {
+  setUpListeners();
+  setUpBooksGrid();
+}
+
+document.addEventListener('DOMContentLoaded', setUp);
 
