@@ -45,30 +45,32 @@
   <div class="modal" id="add-book-modal">
     <form id="add-book-form" action="" autocomplete="off" novalidate>
       <h2>Add a new book</h2>
-      <div class="input">
-        <input type="text" id="book-title" name="book-title" placeholder=" " required>
-        <label for="book-title">Title</label>
-        <div class="error-message empty-error">This field is required</div>
-        <div class="error-message invalid-error">Book already registered</div>
-      </div>
+      <div class="inputs-wrapper">
+        <div class="input">
+          <input type="text" id="book-title" name="book-title" placeholder=" " required>
+          <label for="book-title">Title</label>
+          <div class="error-message empty-error">This field is required</div>
+          <div class="error-message invalid-error">Book already registered</div>
+        </div>
 
-      <div class="input">
-        <input type="text" id="author-name" name="author-name" placeholder=" " required>
-        <label for="author-name">Author</label>
-        <div class="error-message empty-error">This field is required</div>
-      </div>
+        <div class="input">
+          <input type="text" id="author-name" name="author-name" placeholder=" " required>
+          <label for="author-name">Author</label>
+          <div class="error-message empty-error">This field is required</div>
+        </div>
 
-      <div class="input">
-        <input type="number" min="1" id="total-pages" name="total-pages" placeholder=" " required>
-        <label for="total-pages">Total pages</label>
-        <div class="error-message empty-error">This field is required</div>
-        <div class="error-message invalid-error">Please, enter a valid number</div>
-      </div>
+        <div class="input">
+          <input type="number" min="1" id="total-pages" name="total-pages" placeholder=" " required>
+          <label for="total-pages">Total pages</label>
+          <div class="error-message empty-error">This field is required</div>
+          <div class="error-message invalid-error">Please, enter a valid number</div>
+        </div>
 
-      <div class="input">
-        <input type="number" min="1" id="add-pages-read" name="pages-read" placeholder=" ">
-        <label for="add-pages-read">Pages already read</label>
-        <div class="error-message invalid-error">Please, enter a valid number</div>
+        <div class="input">
+          <input type="number" min="1" id="add-pages-read" name="pages-read" placeholder=" ">
+          <label for="add-pages-read">Pages already read</label>
+          <div class="error-message invalid-error">Please, enter a valid number</div>
+        </div>
       </div>
 
       <div class="is-read">

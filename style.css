@@ -292,6 +292,12 @@ form {
   gap: 1.5rem;
 }
 
+.inputs-wrapper {
+  display: grid;
+  grid-template-rows: repeat(4, 1fr);
+  gap: 1.5rem;
+}
+
 .input {
   position: relative;
   --padding: .5rem;
@@ -411,6 +417,10 @@ input.invalid:not(:placeholder-shown) ~ .invalid-error {
   display: block;
 }
 
+body:has(#overlay.active) {
+  overflow-y: hidden;
+}
+
 .hidden {
   display: none !important;
 }
@@ -430,7 +440,7 @@ input[type=number] {
   appearance: textfield;
 }
 
-@media only screen and (max-width: 450px) {
+@media only screen and (max-width: 480px) {
   .header-content {
     padding: 1rem 2rem;
     font-size: 1.2rem;
@@ -450,3 +460,14 @@ input[type=number] {
     background-color: var(--header-color);
   }
 }
+
+@media only screen and (max-height: 480px) {
+  #add-book-modal {
+    width: 50rem;
+  }
+
+  #add-book-modal .inputs-wrapper {
+    grid-template: repeat(2, 1fr) / repeat(2, 1fr);
+  }
+}
+
