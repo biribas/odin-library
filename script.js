@@ -263,18 +263,18 @@ function openAddBookModal() {
 function openUpdateReadingModal(event) {
   if (event.target.className.includes('remove-card-button')) return;
 
+  updateReadingModal.classList.add('active');
+  overlay.classList.add('active');
+
   const bookName = event.currentTarget.querySelector('.book-title').innerText;
   const index = library.find(bookName);
   const book = library.books[index];
- 
+
   updateReadingModal.dataset.index = index;
   updateReadingModal.querySelector('.name').innerText = bookName;
   updateReadingModal.querySelector('.author').innerText = book.author;
-  updateReadingModal.classList.add('active');
   updateReadingModalCheckbox.checked = book.isRead;
   document.getElementById('update-pages-read').disabled = book.isRead;
-
-  overlay.classList.add('active');
 }
 
 function openRemoveCardModal(event) {
