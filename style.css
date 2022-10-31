@@ -223,23 +223,6 @@ footer a:hover::after {
   width: 100%;
 }
 
-.modal {
-  position: fixed;  
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) scale(0);
-  padding: 2rem;
-  border-radius: 10px;
-  background-color: var(--bg-color);
-  transition: transform 0.2s ease-in-out;
-  z-index: 3;
-  width: min(90%, 25rem);
-}
-
-.modal.active {
-  transform: translate(-50%, -50%) scale(1);
-}
-
 .book-info {
   text-align: center;
   width: 100%;
@@ -247,6 +230,9 @@ footer a:hover::after {
 
 #remove-book-modal {
   max-width: 20rem;
+}
+
+#remove-book-modal > .flex-container {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -289,12 +275,6 @@ form {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1.5rem;
-}
-
-.inputs-wrapper {
-  display: grid;
-  grid-template-rows: repeat(4, 1fr);
   gap: 1.5rem;
 }
 
@@ -404,21 +384,46 @@ input.invalid:not(:placeholder-shown) ~ .invalid-error {
   font-size: 1.5rem;
 }
 
-#overlay {
+.modal {
   position: absolute;
-  top: 0; right: 0; bottom: 0; left: 0;
-  background-color: black;
-  opacity: 0.6;
+  transform: scale(0);
+  padding: 2rem;
+  border-radius: 10px;
+  background-color: var(--bg-color);
+  transition: transform 0.2s ease-in-out;
+  width: min(90%, 25rem);
+}
+
+.modal.active {
+  transform: scale(1);
+}
+
+#overlay {
   display: none;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background-color: rgb(0, 0, 0, 0.6);
+  position: fixed;
+  top: 0; right: 0; bottom: 0; left: 0;
   z-index: 2;
 }
 
-#overlay.active {
-  display: block;
+body.overlay-active {
+  overflow-y: hidden;
 }
 
-body:has(#overlay.active) {
-  overflow-y: hidden;
+body.overlay-active #overlay {
+  display: flex;
+  flex-direction: column;
+}
+
+#overlay-content {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 40rem;
+  width: 100vw;
 }
 
 .hidden {
@@ -458,16 +463,6 @@ input[type=number] {
 
   #add-book-button:hover {
     background-color: var(--header-color);
-  }
-}
-
-@media only screen and (max-height: 480px) {
-  #add-book-modal {
-    width: 50rem;
-  }
-
-  #add-book-modal .inputs-wrapper {
-    grid-template: repeat(2, 1fr) / repeat(2, 1fr);
   }
 }
 

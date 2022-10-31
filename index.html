@@ -42,79 +42,80 @@
       Odin Project</a>
   </footer>
 
-  <div class="modal" id="add-book-modal">
-    <form id="add-book-form" action="" autocomplete="off" novalidate>
-      <h2>Add a new book</h2>
-      <div class="inputs-wrapper">
-        <div class="input">
-          <input type="text" id="book-title" name="book-title" placeholder=" " required>
-          <label for="book-title">Title</label>
-          <div class="error-message empty-error">This field is required</div>
-          <div class="error-message invalid-error">Book already registered</div>
+  <section class="" id="overlay">
+    <div id="overlay-content">
+      <div class="modal" id="add-book-modal">
+        <form id="add-book-form" action="" autocomplete="off" novalidate>
+          <h2>Add a new book</h2>
+          <div class="input">
+            <input type="text" id="book-title" name="book-title" placeholder=" " required>
+            <label for="book-title">Title</label>
+            <div class="error-message empty-error">This field is required</div>
+            <div class="error-message invalid-error">Book already registered</div>
+          </div>
+
+          <div class="input">
+            <input type="text" id="author-name" name="author-name" placeholder=" " required>
+            <label for="author-name">Author</label>
+            <div class="error-message empty-error">This field is required</div>
+          </div>
+
+          <div class="input">
+            <input type="number" min="1" id="total-pages" name="total-pages" placeholder=" " required>
+            <label for="total-pages">Total pages</label>
+            <div class="error-message empty-error">This field is required</div>
+            <div class="error-message invalid-error">Please, enter a valid number</div>
+          </div>
+
+          <div class="input">
+            <input type="number" min="1" id="add-pages-read" name="pages-read" placeholder=" ">
+            <label for="add-pages-read">Pages already read</label>
+            <div class="error-message invalid-error">Please, enter a valid number</div>
+          </div>
+
+          <div class="is-read">
+            <label for="add-isread">Have you read the book?</label>
+            <input type="checkbox" id="add-isread" name="isread">
+          </div>
+
+          <button type="submit">Add book</button>
+        </form>
+      </div>
+
+      <div class="modal" id="update-reading-modal">
+        <form id="update-reading-form" action="" autocomplete="off" novalidate>
+          <div class="book-info">
+            <h2 class="name"></h2>
+            <h3 class="author"></h3>
+          </div>
+
+          <div class="input">
+            <input type="number" min="1" id="update-pages-read" name="pages-read" placeholder=" " required>
+            <label for="update-pages-read">Update pages read</label>
+            <div class="error-message empty-error">This field is required</div>
+            <div class="error-message invalid-error">Please, enter a valid number</div>
+          </div>
+
+          <div class="is-read">
+            <label for="update-isread">Book completed</label>
+            <input type="checkbox" id="update-isread" name="isread">
+          </div>
+
+          <button type="submit">Update</button>
+        </form>
+      </div>
+
+      <div class="modal" id="remove-book-modal">
+        <div class="flex-container">
+          <h3>Remove <span class="book-name"></span> from your library?</h3>
+          <div class="buttons">
+            <button class="yes">Yes</button>
+            <button class="no">No</button>
+          </div>
         </div>
-
-        <div class="input">
-          <input type="text" id="author-name" name="author-name" placeholder=" " required>
-          <label for="author-name">Author</label>
-          <div class="error-message empty-error">This field is required</div>
-        </div>
-
-        <div class="input">
-          <input type="number" min="1" id="total-pages" name="total-pages" placeholder=" " required>
-          <label for="total-pages">Total pages</label>
-          <div class="error-message empty-error">This field is required</div>
-          <div class="error-message invalid-error">Please, enter a valid number</div>
-        </div>
-
-        <div class="input">
-          <input type="number" min="1" id="add-pages-read" name="pages-read" placeholder=" ">
-          <label for="add-pages-read">Pages already read</label>
-          <div class="error-message invalid-error">Please, enter a valid number</div>
-        </div>
       </div>
-
-      <div class="is-read">
-        <label for="add-isread">Have you read the book?</label>
-        <input type="checkbox" id="add-isread" name="isread">
-      </div>
-
-      <button type="submit">Add book</button>
-    </form>
-  </div>
-
-  <div class="modal" id="update-reading-modal">
-    <form id="update-reading-form" action="" autocomplete="off" novalidate>
-      <div class="book-info">
-        <h2 class="name"></h2>
-        <h3 class="author"></h3>
-      </div>
-
-      <div class="input">
-        <input type="number" min="1" id="update-pages-read" name="pages-read" placeholder=" " required>
-        <label for="update-pages-read">Update pages read</label>
-        <div class="error-message empty-error">This field is required</div>
-        <div class="error-message invalid-error">Please, enter a valid number</div>
-      </div>
-
-      <div class="is-read">
-        <label for="update-isread">Book completed</label>
-        <input type="checkbox" id="update-isread" name="isread">
-      </div>
-
-      <button type="submit">Update</button>
-    </form>
-  </div>
-
-  <div class="modal" id="remove-book-modal">
-    <h3>Remove <span class="book-name"></span> from your library?</h3>
-    <div class="buttons">
-      <button class="yes">Yes</button>
-      <button class="no">No</button>
     </div>
-  </div>
-
-  <div id="overlay"></div>
-
+  </section>
 </body>
 
 </html>

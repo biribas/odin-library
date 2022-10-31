@@ -257,14 +257,14 @@ function validateUpdateReadingForm(form) {
 
 function openAddBookModal() {
   addBookModal.classList.add('active');
-  overlay.classList.add('active');
+  document.body.classList.add('overlay-active');
 }
 
 function openUpdateReadingModal(event) {
   if (event.target.className.includes('remove-card-button')) return;
 
   updateReadingModal.classList.add('active');
-  overlay.classList.add('active');
+  document.body.classList.add('overlay-active');
 
   const bookName = event.currentTarget.querySelector('.book-title').innerText;
   const index = library.find(bookName);
@@ -279,7 +279,7 @@ function openUpdateReadingModal(event) {
 
 function openRemoveCardModal(event) {
   removeBookModal.classList.add('active');
-  overlay.classList.add('active');
+  document.body.classList.add('overlay-active');
 
   const bookName = event.target.parentNode.querySelector('.book-title').innerText;
   const index = library.find(bookName);
@@ -289,7 +289,8 @@ function openRemoveCardModal(event) {
 }
 
 function hideModal() {
-  document.querySelectorAll('.active').forEach(query => query.classList.remove('active'));
+  document.body.classList.remove('overlay-active');
+  document.querySelector('.active').classList.remove('active');
 }
 
 function toggleInput(event) {
@@ -341,7 +342,11 @@ function setUpListeners() {
   });
 
   addBookButton.onclick = openAddBookModal;
-  overlay.onclick = hideModal;
+  overlay.addEventListener('click', function(event) {
+    const overlayContent = this.firstElementChild;
+    if (event.target === overlayContent)
+      hideModal();
+  });
 
   addBookModal.addEventListener('transitionend', resetInputValues);
   addBookModalCheckbox.addEventListener('input', toggleInput);
