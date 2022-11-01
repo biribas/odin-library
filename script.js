@@ -1,3 +1,4 @@
+const styleTag = document.querySelector('style');
 const addBookButton = document.getElementById('add-book-button');
 
 const addBookModal = document.getElementById('add-book-modal');
@@ -261,6 +262,7 @@ function openModal(modal) {
   document.body.classList.add('overlay-active');
   modal.classList.add('active');
   overlayContent.classList.add('active');
+  changeOverlayMinHeight(modal);
 }
 
 function openAddBookModal() {
@@ -269,8 +271,6 @@ function openAddBookModal() {
 
 function openUpdateReadingModal(event) {
   if (event.target.className.includes('remove-card-button')) return;
-
-  openModal(updateReadingModal);
 
   const bookName = event.currentTarget.querySelector('.book-title').innerText;
   const index = library.find(bookName);
@@ -281,20 +281,27 @@ function openUpdateReadingModal(event) {
   updateReadingModal.querySelector('.author').innerText = book.author;
   updateReadingModalCheckbox.checked = book.isRead;
   document.getElementById('update-pages-read').disabled = book.isRead;
+
+  openModal(updateReadingModal);
 }
 
 function openRemoveCardModal(event) {
-  openModal(removeBookModal)
-
   const bookName = event.target.parentNode.querySelector('.book-title').innerText;
   const index = library.find(bookName);
 
   removeBookModal.dataset.index = index;
   removeBookModal.querySelector('.book-name').innerText = bookName;
+
+  openModal(removeBookModal)
 }
 
 function hideModal() {
   document.querySelectorAll('.active').forEach(element => element.classList.remove('active'));
+}
+
+function changeOverlayMinHeight(modal) {
+  const modalHeight = modal.offsetHeight;
+  styleTag.innerHTML = `#overlay-content {min-height: ${(modalHeight * 1.15).toFixed(1)}px}`
 }
 
 function hideOverlay(event) {
