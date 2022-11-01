@@ -257,20 +257,20 @@ function validateUpdateReadingForm(form) {
   return true;
 }
 
-function setUpOpenModalClasses(modal) {
+function openModal(modal) {
   document.body.classList.add('overlay-active');
   modal.classList.add('active');
   overlayContent.classList.add('active');
 }
 
 function openAddBookModal() {
-  setUpOpenModalClasses(addBookModal);
+  openModal(addBookModal);
 }
 
 function openUpdateReadingModal(event) {
   if (event.target.className.includes('remove-card-button')) return;
 
-  setUpOpenModalClasses(updateReadingModal);
+  openModal(updateReadingModal);
 
   const bookName = event.currentTarget.querySelector('.book-title').innerText;
   const index = library.find(bookName);
@@ -284,7 +284,7 @@ function openUpdateReadingModal(event) {
 }
 
 function openRemoveCardModal(event) {
-  setUpOpenModalClasses(removeBookModal)
+  openModal(removeBookModal)
 
   const bookName = event.target.parentNode.querySelector('.book-title').innerText;
   const index = library.find(bookName);
