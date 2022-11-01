@@ -14,6 +14,8 @@ const removeBookButtons = removeBookModal.querySelector('.buttons');
 const inputFields = document.querySelectorAll('input:not([type="checkbox"])');
 
 const overlay = document.getElementById('overlay');
+const overlayContent = document.getElementById('overlay-content');
+
 const emptyLibraryMessage = document.getElementById('empty-library-message-wrapper');
 
 // Pagemeter 
@@ -255,16 +257,20 @@ function validateUpdateReadingForm(form) {
   return true;
 }
 
-function openAddBookModal() {
-  addBookModal.classList.add('active');
+function setUpOpenModalClasses(modal) {
   document.body.classList.add('overlay-active');
+  modal.classList.add('active');
+  overlayContent.classList.add('active');
+}
+
+function openAddBookModal() {
+  setUpOpenModalClasses(addBookModal);
 }
 
 function openUpdateReadingModal(event) {
   if (event.target.className.includes('remove-card-button')) return;
 
-  updateReadingModal.classList.add('active');
-  document.body.classList.add('overlay-active');
+  setUpOpenModalClasses(updateReadingModal);
 
   const bookName = event.currentTarget.querySelector('.book-title').innerText;
   const index = library.find(bookName);
@@ -278,8 +284,7 @@ function openUpdateReadingModal(event) {
 }
 
 function openRemoveCardModal(event) {
-  removeBookModal.classList.add('active');
-  document.body.classList.add('overlay-active');
+  setUpOpenModalClasses(removeBookModal)
 
   const bookName = event.target.parentNode.querySelector('.book-title').innerText;
   const index = library.find(bookName);
@@ -289,8 +294,16 @@ function openRemoveCardModal(event) {
 }
 
 function hideModal() {
+  document.querySelectorAll('.active').forEach(element => element.classList.remove('active'));
+}
+
+function hideOverlay(event) {
+  if (event.target != this) return;
+
+  const scale = this.getBoundingClientRect().width / this.offsetWidth;
+  if (scale != 0) return;
+
   document.body.classList.remove('overlay-active');
-  document.querySelector('.active').classList.remove('active');
 }
 
 function toggleInput(event) {
@@ -312,12 +325,11 @@ function toggleInput(event) {
 }
 
 function resetInputValues(event) {
-  const modal = event.currentTarget;
-
+  const modal = this;
   if (event.target != modal) return;
 
-  const scaleY = modal.getBoundingClientRect().width / modal.offsetWidth;
-  if (scaleY != 0) return;
+  const scale = modal.getBoundingClientRect().width / modal.offsetWidth;
+  if (scale != 0) return;
 
   const inputs = modal.querySelectorAll('input:not([type="checkbox"])');
   inputs.forEach(input => {
@@ -342,11 +354,9 @@ function setUpListeners() {
   });
 
   addBookButton.onclick = openAddBookModal;
-  overlay.addEventListener('click', function(event) {
-    const overlayContent = this.firstElementChild;
-    if (event.target === overlayContent)
-      hideModal();
-  });
+  overlay.addEventListener('click', event => event.target === overlayContent && hideModal());
+
+  document.querySelectorAll('.modal').forEach(modal => modal.addEventListener('transitionend', hideOverlay));
 
   addBookModal.addEventListener('transitionend', resetInputValues);
   addBookModalCheckbox.addEventListener('input', toggleInput);
