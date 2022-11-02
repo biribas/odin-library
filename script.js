@@ -242,7 +242,8 @@ function validateAddBookForm(form) {
 }
 
 function validateUpdateReadingForm(form) {
-  if (!validateInputs(form)) return false
+  if (!validateInputs(form))
+    return false;
 
   const index = +updateReadingModal.dataset.index;
   const book = library.books[index];
