@@ -174,26 +174,6 @@ main {
   flex-direction: column;
 }
 
-.book-title, 
-.book-info .name {
-  --line-height: 2.5rem;
-  line-height: var(--line-height);
-  max-height: calc(2 * var(--line-height));
-  overflow: clip;
-  word-wrap: break-word;
-}
-
-.book-author,
-.book-info .author {
-  line-height: 2.5rem;
-  height: 2.5rem;
-  color: grey;
-  overflow: clip;
-  word-wrap: break-word;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-
 footer {
   text-align: center;
   padding: 0rem 1rem;
@@ -223,9 +203,33 @@ footer a:hover::after {
   width: 100%;
 }
 
+#add-book-modal h2 {
+  text-align: center;
+}
+
 .book-info {
   text-align: center;
   width: 100%;
+}
+
+.book-title, 
+.book-info .name {
+  --line-height: 2.5rem;
+  line-height: var(--line-height);
+  max-height: calc(2 * var(--line-height));
+  overflow: clip;
+  word-wrap: break-word;
+}
+
+.book-author,
+.book-info .author {
+  line-height: 2.5rem;
+  height: 2.5rem;
+  color: grey;
+  overflow: clip;
+  word-wrap: break-word;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 #remove-book-modal {
